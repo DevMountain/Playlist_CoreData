@@ -55,7 +55,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="mJI-Gg-w15">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="dxh-ch-fkI">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="dxh-ch-fkI">
                             <connections>
                                 <action selector="addPlaylistButtonTapped:" destination="A3B-N8-E3E" id="4B8-S8-M4Q"/>
                             </connections>
@@ -151,7 +151,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="cb2-a0-Ac8">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="jtx-l2-tML">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="jtx-l2-tML">
                             <connections>
                                 <action selector="addSongButtonTapped:" destination="YGg-u7-lg6" id="qgX-8c-6mj"/>
                             </connections>

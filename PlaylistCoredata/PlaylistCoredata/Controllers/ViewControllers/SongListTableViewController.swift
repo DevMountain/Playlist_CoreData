@@ -25,7 +25,7 @@ class SongListTableViewController: UITableViewController {
 
     // MARK: - IBActions
     @IBAction func addSongButtonTapped(_ sender: Any) {
-        guard let songName = trackNameTextField.text, let artistName = artistNameTextField.text, let playlist = playlist else {return}
+        guard let songName = trackNameTextField.text, !songName.isEmpty, let artistName = artistNameTextField.text, !artistName.isEmpty, let playlist = playlist else {return}
         SongController.create(songWithName: songName, artist: artistName, playlist: playlist)
         
         // Clean up the dust

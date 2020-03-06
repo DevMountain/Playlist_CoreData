@@ -25,3 +25,50 @@ init() {
     * Note: Explain how the fetchResults is working
 5. In our `cellForRowAt`  let our `playlist` equal `PlaylistController.shared.fetchedResultsController.object(at: indexPath)`
 6. In our segue let our `playlist` equal `PlaylistController.shared.fetchedResultsController.object(at: index)`
+7. Note that the app still won’t work properly even though we replaced our source of truth. This is becuase the table view wants to do stuff but our Fetch Results Controller is fighting it. To fix this issue add this code snippet at the bottom of our `PlaylistListTableViewController`
+```
+extension PlaylistListTableViewController: NSFetchedResultsControllerDelegate {
+    // Conform to the NSFetchedResultsControllerDelegate
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    //sets behavior for cells
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type{
+            case .delete:
+                guard let indexPath = indexPath else { break }
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            case .insert:
+                guard let newIndexPath = newIndexPath else { break }
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            case .move:
+                guard let indexPath = indexPath, let newIndexPath = newIndexPath else { break }
+                tableView.moveRow(at: indexPath, to: newIndexPath)
+            case .update:
+                guard let indexPath = indexPath else { break }
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            @unknown default:
+                fatalError()
+        }
+    }
+    //additional behavior for cells
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+            case .insert:
+                tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+            case .delete:
+                tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+            case .move:
+                break
+            case .update:
+                break
+            @unknown default:
+                fatalError()
+        }
+    }
+}
+```
+8. In our `ViewDidLoad` set our `PlaylistController.shared.fetchedResultsController.delegate` equal to `self`

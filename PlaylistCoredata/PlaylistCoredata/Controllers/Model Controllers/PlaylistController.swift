@@ -62,7 +62,7 @@ class PlaylistController {
         - playlist: The Playlist to be removed from storage
      */
     func delete(playlist: Playlist) {
-        playlist.managedObjectContext?.delete(playlist)
+        CoreDataStack.context.delete(playlist)
         saveToPersistentStore()
     }
     
