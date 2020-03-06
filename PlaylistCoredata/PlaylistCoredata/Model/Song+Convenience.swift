@@ -9,12 +9,12 @@
 import Foundation
 import CoreData
 
- //This is extending the model that we made in our `xcdatamodeld`.
+ ///This is extending the model `Song` that we made in our `xcdatamodeld`.
 extension Song{
     
     @discardableResult
     convenience init(name: String, artist: String, playlist: Playlist){
-        //creating our container
+        ///creating our container
         self.init(context: CoreDataStack.context)
         self.name = name
         self.artist = artist

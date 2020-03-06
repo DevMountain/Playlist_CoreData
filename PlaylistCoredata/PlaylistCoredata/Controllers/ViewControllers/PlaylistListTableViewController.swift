@@ -37,13 +37,13 @@ class PlaylistListTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        ///Returns the number of rows based off the the secition. If we didn't do this then swift would try to but more cells than there are objects in a secition crashing the app.
         return PlaylistController.shared.fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "playlistCell", for: indexPath)
-        
+        ///Grabbing our playlist based off of our fetched Results
         let playlist = PlaylistController.shared.fetchedResultsController.object(at: indexPath)
         let songCount = playlist.songs?.count ?? 0
         
@@ -56,16 +56,15 @@ class PlaylistListTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            //Grabbing out playlist
+            ///Grabbing our playlist based off of our fetched Results
             let playlist = PlaylistController.shared.fetchedResultsController.object(at: indexPath)
-            //Passing our playlist to our delete function
+            ///Passing playlist to our delete function
             PlaylistController.shared.delete(playlist: playlist)
         }
     }
     
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetailVC" {
             guard let index = tableView.indexPathForSelectedRow, let destinationVC = segue.destination as? SongListTableViewController else {return}
@@ -75,15 +74,16 @@ class PlaylistListTableViewController: UITableViewController {
     }
 }
 
+/// Conform to the NSFetchedResultsControllerDelegate
 extension PlaylistListTableViewController: NSFetchedResultsControllerDelegate {
-    // Conform to the NSFetchedResultsControllerDelegate
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
-    //sets behavior for cells
+    
+    ///sets the behavior for cells
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type{
             case .delete:
@@ -102,7 +102,7 @@ extension PlaylistListTableViewController: NSFetchedResultsControllerDelegate {
                 fatalError()
         }
     }
-    //additional behavior for cells
+    ///additional behavior for cells
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch type {
             case .insert:

@@ -15,7 +15,7 @@ class SongListTableViewController: UITableViewController {
     @IBOutlet weak var trackNameTextField: UITextField!
     
     // MARK: - Properties
-    // Reciever / Landing pad / thing that recieves data from the PlaylistVC segue
+    /// Reciever / Landing pad / thing that recieves data from the PlaylistVC segue
     var playlist: Playlist?
     
     // MARK: - Life Cycle
@@ -37,7 +37,6 @@ class SongListTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return playlist?.songs?.count ?? 0
     }
 
